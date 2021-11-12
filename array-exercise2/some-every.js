@@ -76,7 +76,7 @@ Examples:
 
 function hasCertainKey(arr, key) {
     return arr.every(function(keyed){
-        return key in keyed
+        return key in keyed;
     })
     
 }
@@ -99,7 +99,7 @@ Examples:
 
 function hasCertainValue(arr, key, searchValue) {
     return arr.every(function(val, array){
-        return searchValue in array.value
+        return val[key] === searchValue;
     })
 
 }
