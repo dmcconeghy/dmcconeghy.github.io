@@ -116,10 +116,10 @@
 // An arrow function
 // Destructuring
 // ‘Enhanced’ object assignment (same key/value shortcut)
-const raceResults = ([first, second, third, ...rest]) => ({first, second, third, rest});
+// const raceResults = ([first, second, third, ...rest]) => ({first, second, third, rest});
 
 
-raceResults(['Tom', 'Margaret', 'Allison', 'David', 'Pierre'])
+// raceResults(['Tom', 'Margaret', 'Allison', 'David', 'Pierre'])
 
 /*
   {
