@@ -7,20 +7,16 @@ body {
   padding: 50px;
 }
 
-
 /* game board table */
-
 #board td {
   position: relative;
   width: 50px;
   height: 50px;
   border: solid 1px #666;
   background-color: white;
- 
 }
 
 /* pieces are div within game table cells: draw as colored circles */
-
 .piece {
   position: absolute;
   margin: 5px;
@@ -38,14 +34,14 @@ if there are 4 or 5 the value is calcuated relative to the placed piece
 and thus increases above the top of the board */
 @keyframes falling {
   from {
-    bottom: 200px;
+    bottom: 300px;
   }
   to {
     bottom: 0px;
   }
 }
 
-
+/* player1 and player2 colors for dynamic display of piece drop location and which player is dropping */
 .player1 {
   background-color: blue;
 }
@@ -55,14 +51,7 @@ and thus increases above the top of the board */
 }
 
 /* column-top is table row of clickable areas for each column */
-
 #column-top td {
   border: dashed 1px lightgray;
   border-radius: 50%;
 }
-
-/* #column-top td:hover {
-  background-color: gold;
-} */
-
-
