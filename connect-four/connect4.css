@@ -2,6 +2,9 @@ body {
   width: 60%;
   margin: auto;
   background-color: blanchedalmond;
+  /* below 660px and the cell sizes are impacted */
+  min-width: 660px;
+  padding: 50px;
 }
 
 
@@ -12,6 +15,7 @@ body {
   width: 50px;
   height: 50px;
   border: solid 1px #666;
+  background-color: white;
  
 }
 
@@ -25,13 +29,16 @@ body {
   border-radius: 50%;
   animation-name: falling;
   animation-duration: 1s;
+  /* if you don't specify bottom: 0px then the pieces will fall below the board */
   bottom: 0px;
 }
 
-
+/* Bottom works less well the higher the rows of piece
+if there are 4 or 5 the value is calcuated relative to the placed piece 
+and thus increases above the top of the board */
 @keyframes falling {
   from {
-    Bottom: 300px;
+    bottom: 200px;
   }
   to {
     bottom: 0px;
