@@ -127,8 +127,8 @@ function handleClick(evt) {
   if (checkForWin()) {
     let color = currPlayer === 1 ? "blue" : "red"
 
-    document.getElementById("currentPlayer").innerText = `Player ${currPlayer} (${color} won!`;
-    setTimeout(() => {return endGame(`Player ${currPlayer} won!`)}, 1100);
+    document.getElementById("currentPlayer").innerText = `Player ${currPlayer} / ${color} won!`;
+    setTimeout(() => {return endGame(`Player ${currPlayer} / ${color} won!`)}, 1100);
     document.getElementById("column-top").removeEventListener("click", handleClick);
     return;
   }
