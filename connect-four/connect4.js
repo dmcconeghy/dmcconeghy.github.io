@@ -125,7 +125,9 @@ function handleClick(evt) {
 
   // check for win
   if (checkForWin()) {
-    document.getElementById("currentPlayer").innerText = `Player ${currPlayer} won!`;
+    let color = currPlayer === 1 ? "blue" : "red"
+
+    document.getElementById("currentPlayer").innerText = `Player ${currPlayer} (${color} won!`;
     setTimeout(() => {return endGame(`Player ${currPlayer} won!`)}, 1100);
     document.getElementById("column-top").removeEventListener("click", handleClick);
     return;
@@ -143,7 +145,7 @@ function handleClick(evt) {
   // switch players
   currPlayer = currPlayer === 1 ? 2 : 1;
   
-  let color = currPlayer === 1 ? "blue" : "red"
+  color = currPlayer === 1 ? "blue" : "red"
   document.getElementById("currentPlayer").innerText = `It's now ${color}'s turn`;
 
   // this should turn the background empty on click but it doesn't work bc mouseover is still active. 
