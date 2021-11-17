@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dave's Movie Rating App</title>
+</head>
+<body>
+<h1>Movie Tracker</h1>
+<h4>Enter your movies to make a ratings list.</h4>
+    <form id="movie">
+        <label for="movieTitle">Movie Title</label>
+        <input type="text" id="movieTitle" name="movieTitle" placeholder="Enter a movie title.">
+        <label for="movieRating">What did you think?</label>
+        <input type="range" id="movieRating" name="movieRating" min="0" max="10" step="1">
+        <span id="ratingValue">(5 out of 10)</span>
+        <!-- It'd be nice to show the movie rating # here -->
+        <input type="submit" value="submit">
+    </form>
+    <hr>
+    <div>
+        <ul id="ratedMovies">
+            <span style="font-weight: bold;">Your rated movie list:</span><br>
+        </ul>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
