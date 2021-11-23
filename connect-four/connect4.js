@@ -18,6 +18,7 @@ function makeBoard() {
   // for each mapped item, fill it with value null
 
   board = [...Array(HEIGHT)].map(() => Array(WIDTH).fill(null));
+  //alternate board = Array.from({length: HEIGHT}).fill(Array.from({length: WIDTH}))
 }
 
 // makeHtmlBoard: make HTML table and row of column tops. 
@@ -187,10 +188,6 @@ function checkForWin() {
   }
 }
 
-makeBoard();
-makeHtmlBoard();
-
-
 //handleHover & handleExitHover manage the mouseover color swap to indicate turn and location
 function handleHover(e){
     //if no one has won, change the background color of the column-top background piece to the current player
@@ -206,3 +203,6 @@ function handleExitHover(e){
     e.currentTarget.style.backgroundColor = ""
   } else e.currentTarget.style.backgroundColor = ""
 }
+
+makeBoard();
+makeHtmlBoard();
