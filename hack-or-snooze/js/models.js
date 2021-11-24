@@ -95,6 +95,24 @@ class StoryList {
 
     return story;
   }
+
+  //delete a story posted by current user
+  async removeStory(user, storyId) {
+    const token = user.loginToken;
+    await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "DELETE",
+      data: { token: token }
+    });
+
+    // remove the story from the stories array
+    this.stories = this.stories.filter(story => story.storyId !== storyId);
+
+    // remove from user's list of stories & their favorites
+    user.ownStories = user.ownStories.filter(s => s.storyId !== storyId);
+    user.favorites = user.favorites.filter(s => s.storyId !== storyId);
+  }
+
 }
 
 
@@ -212,4 +230,38 @@ class User {
       return null;
     }
   }
+
+  //Take a story, pushes it to the user's array of favorites using _addOrRemoveFavorite
+  async addFavorite(story){
+   this.favorites.push(story);
+   await this._addOrRemoveFavorite("add", story)
+ }
+
+  //Take a story, look for its id in a user's favorite array to filter & remove it using _addOrRemoveFavorite
+  async removeFavorite(story) {
+  this.favorites = this.favorites.filter(s => s.storyId !== story.storyId);
+  await this._addOrRemoveFavorite("remove", story);
+  }
+
+  // swaps between finding add to post or not finding add and deleting
+  // token is required to POST/DELETE but we have it within this method by using this.username in 
+  async _addOrRemoveFavorite(option, story){
+    
+    const swap = option === "add" ? "POST" : "DELETE"
+    const token = this.loginToken;
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: swap,
+      data: { token },
+    });
+  }
+
+  // this function is used by stories.js to add/remove items from the favorites list
+  isFavorite(story){
+    return this.favorites.some(s => (s.storyId === story.storyId));
+  }
+
 }
+
+
+
