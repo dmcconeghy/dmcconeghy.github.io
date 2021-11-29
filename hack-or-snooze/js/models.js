@@ -102,7 +102,7 @@ class StoryList {
     await axios({
       url: `${BASE_URL}/stories/${storyId}`,
       method: "DELETE",
-      data: { token: token }
+      data: { token }
     });
 
     // remove the story from the stories array
