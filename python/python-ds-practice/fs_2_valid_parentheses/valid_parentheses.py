@@ -27,10 +27,9 @@ def valid_parentheses(parens):
     #     return True 
     # else :
     #     return False
+    #
+    # This fails the final test since the parenstheses are matching pairs but inverted. 
 
-    # Sample code fails on this final test, too.
-    # To get the final to pass I'd strip matching characters off the front/back of parens with a/b pointers
-    # If a pair didn't match then the parens would be invalid.    
     
     count = 0
 
