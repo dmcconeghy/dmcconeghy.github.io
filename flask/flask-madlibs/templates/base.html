@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}TITLE GOES HERE{% endblock %}</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="http://unpkg.com/jquery"></script>
+</head>
+<body>
+  <div id="main">
+  {% block content %}BODY CONTENT GOES HERE{% endblock %}
+</div>
+  <footer>A project by Dave McConeghy</footer>
+</body>
+</html>
