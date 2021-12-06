@@ -28,7 +28,6 @@ def ask_questions():
                             title=story.title,
                             prompts=prompts)
 
-
 @app.route("/story")
 def show_story():
     """Show story result."""
