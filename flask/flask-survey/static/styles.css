@@ -1,0 +1,13 @@
+body {
+    padding: 50px;
+    background-color: bisque;
+}
+
+#main {
+    font-weight: bold;
+}
+
+
+footer {
+    margin-top: 100px;
+}
