@@ -1,6 +1,6 @@
 """Satisfaction Survey"""
 
-from flask import Flask, request, render_template, redirect, flash, session
+from flask import Flask, request, render_template, redirect, flash, session, make_response
 from flask_debugtoolbar import DebugToolbarExtension
 from surveys import surveys
 
@@ -25,9 +25,13 @@ def select_survey():
     """"User begins by selecting a survey"""
 
     survey_id = request.form['survey_id']
-
     survey = surveys[survey_id]
     session[SURVEY] = survey_id
+    responses = session.get(RESPONSES)
+
+    # don't let them re-take a survey until cookie times out
+    if request.cookies.get(f"completed_{survey_id}"):
+        return render_template("complete.html", survey=survey, responses=responses)
 
     return render_template("start.html", survey=survey)
 
@@ -90,6 +94,14 @@ def complete():
     survey_id = session[SURVEY]
     survey = surveys[survey_id]
 
-    return render_template("complete.html", responses=responses, survey=survey)
+    html = render_template("complete.html",
+                           survey=survey,
+                           responses=responses)
 
-# 
+  # Set cookie so they can't re-take this survey
+    response = make_response(html)
+    response.set_cookie(f"completed_{survey_id}", "yes", max_age=60)
+    return response
+    
+
+
