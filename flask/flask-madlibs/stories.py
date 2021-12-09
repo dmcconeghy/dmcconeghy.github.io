@@ -55,3 +55,4 @@ storyB = Story(
 )
 
 stories = {s.ref: s for s in [storyA, storyB]}
+
