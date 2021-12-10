@@ -13,13 +13,13 @@ debug = DebugToolbarExtension(app)
 boggle_game = Boggle()
 
 
-# @app.route("/")
-# def home_page():
-#     """ User selects start to start a boggle game"""
-
-#     return render_template("start.html")
-
 @app.route("/")
+def home_page():
+    """ User selects start to start a boggle game"""
+
+    return render_template("start.html")
+
+@app.route("/boggle")
 def boggle_start():
     """ Boggle board appears"""
 

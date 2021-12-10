@@ -11,11 +11,10 @@ class Boggle {
     }
 
     listWords(word) {
-        $(".words", this.board).append($("<li>", {text: word}));
-    }
-
+        $(".words", this.board).append($("<li>", { text: word }));
+      }
     // We use the /validate route to pass JSON with the server's reply about a word submission
-    // This must be async because we have to wait on the server's reply about each checked word
+    
 
     async handleSubmission(evt){
         // Do not reload page when a word is submitted
@@ -24,15 +23,21 @@ class Boggle {
 
         let word = $word.val();
         
-
         // empty submissions not allowed
         if (!word) {
             return;
         }
 
-        //logic for words already found
+        // logic for already found words
+        if (this.words.has(word)){
+            //reply with message already found
+            return;
+        }
+
+        //logic for words not already found
         const response = await axios.get("/validate", { params: { word: word }});
-        console.log(response)
+
+
         if (response.data.result === "not-word"){
             //reply with error for non-word
             console.log("That isn't a word.")
@@ -40,10 +45,13 @@ class Boggle {
             //reply with error for duplicate word
             console.log("That word isn't on this board.")
         } else {
-            //valid word
-            console.log("You found a word.")
+            this.listWords(word);
+            this.words.add(word);
+            //reply with success message
             //calculate score
-            //add word to bank
         }
+
+        //no matter what's entered, clear for the next entry
+        $word.val("").focus()
     }
 }
