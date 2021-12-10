@@ -20,6 +20,7 @@ class Boggle():
 
     def make_board(self):
         """Make and return a random boggle board."""
+        # This employs the string module to grab uppercase letters to fill the board
 
         board = []
 
