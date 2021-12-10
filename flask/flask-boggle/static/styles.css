@@ -1,0 +1,15 @@
+#main {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+table {
+    padding: 20px;
+}
+
+td {
+    width: 25px;
+    height: 25px
+}

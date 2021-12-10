@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} BOGGLE {% endblock %}}
+
+{% block content %}
+
+<h1>Find as many words as you can</h1>
+
+<p>Enter them into the text field below</p>
+
+<table>
+    {% for row in board %} 
+        <tr>
+            {% for letter in row %}
+            <td>{{letter}}</td>
+            {% endfor %}
+        </tr>
+        
+    {% endfor %}
+</table>
+
+{% for msg in get_flashed_messages() %}
+
+    {{ msg }}
+
+{% endfor %} 
+
+
+<form action="/submission" method="POST">
+    <input name="submit_word" type="text"/>
+  <button>Submit</button>
+</form>
+
+<hr>
+<h3>Words you've found so far: </h3>
+<ul>
+    {% for word in answers %} 
+    <li>
+        {{word}}
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
