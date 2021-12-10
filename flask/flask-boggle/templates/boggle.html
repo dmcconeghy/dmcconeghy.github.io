@@ -4,40 +4,48 @@
 
 {% block content %}
 
-<h1>Find as many words as you can</h1>
+    <div id="main">
 
-<p>Enter them into the text field below</p>
+        <h1>Find as many words as you can</h1>
 
-<table>
-    {% for row in board %} 
-        <tr>
-            {% for letter in row %}
-            <td>{{letter}}</td>
-            {% endfor %}
-        </tr>
-        
-    {% endfor %}
-</table>
+        <p>Enter them into the text field below</p>
 
-{% for msg in get_flashed_messages() %}
+        <section id="boggle">
 
-    {{ msg }}
+            <table class="board">
+                {% for row in board %} 
+                    <tr>
+                        {% for letter in row %}
+                        <td>{{letter}}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
 
-{% endfor %} 
+        <form class="submit-word">
+            <input name="submitted-word" class="word" type="text"/>
+        <button>Add Word</button>
+        </form>
 
+        <hr>
+        <h3>Words you've found so far: </h3>
 
-<form method="POST" class="submit-word">
-    <input name="submit_word" class="word" type="text"/>
-  <button>Add Word</button>
-</form>
+        <!-- JS to handle messages, words, scores -->
 
-<hr>
-<h3>Words you've found so far: </h3>
+        <ul class="words">
+            <!-- Add words with JS by appending LI to this class-->   
+        </ul>
 
-<!-- JS to handle messages, words, scores -->
+        </section>
 
-<ul class="words">
-    <!-- Add words with JS by appending LI to this class-->   
-</ul>
+    </div>
+
+    <script src="http://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/static/app.js"></script>
+    <script>
+        let game = new Boggle("boggle");
+    </script>
 
 {% endblock %}
+
