@@ -26,19 +26,18 @@
 {% endfor %} 
 
 
-<form action="/validate">
-    <input name="submit_word" type="text"/>
-  <button>Submit</button>
+<form method="POST" class="submit-word">
+    <input name="submit_word" class="word" type="text"/>
+  <button>Add Word</button>
 </form>
 
 <hr>
 <h3>Words you've found so far: </h3>
-<ul>
-    {% for word in answers %} 
-    <li>
-        {{word}}
-    </li>
-    {% endfor %}
+
+<!-- JS to handle messages, words, scores -->
+
+<ul class="words">
+    <!-- Add words with JS by appending LI to this class-->   
 </ul>
 
 {% endblock %}

@@ -11,7 +11,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
 boggle_game = Boggle()
-BOARD = "board"
+
 
 @app.route("/")
 def home_page():
@@ -24,7 +24,7 @@ def boggle_start():
     """ Boggle board appears"""
 
     board = boggle_game.make_board()
-    session[BOARD] = board
+    session["board"] = board
     
 
     return render_template("boggle.html", board=board)
@@ -34,10 +34,7 @@ def validate_submission():
     """ Check the dictionary for the submitted word.
         Returns JSON for JS use.
     """
-
-    submission = request.args["submit_word"]
-    board = session[BOARD]
-    check = boggle_game.check_valid_word(board, submission)
+    check = boggle_game.check_valid_word(session["board"], request.args["submit_word"])
 
     return jsonify({'result': check})
 
