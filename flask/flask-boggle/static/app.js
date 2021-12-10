@@ -15,6 +15,13 @@ class Boggle {
       }
     // We use the /validate route to pass JSON with the server's reply about a word submission
     
+    showMessages(message, clss){
+        //add a message with inputted message and class
+        $(".msg", this.board)
+        .text(message)
+        .removeClass()
+        .addClass(`msg ${clss}`);
+    }
 
     async handleSubmission(evt){
         // Do not reload page when a word is submitted
@@ -40,14 +47,20 @@ class Boggle {
 
         if (response.data.result === "not-word"){
             //reply with error for non-word
-            console.log("That isn't a word.")
+            this.showMessages(`${word} is not a valid entry`, "err");
+        
         } else if (response.data.result === "not-on-board"){
             //reply with error for duplicate word
-            console.log("That word isn't on this board.")
+            this.showMessages(`${word} is not found on this board`, "err");
+            
         } else {
+            //add to DOM
             this.listWords(word);
+            //add to words set
             this.words.add(word);
             //reply with success message
+            this.showMessages(`${word} added to your list,`, "ok")
+
             //calculate score
         }
 
