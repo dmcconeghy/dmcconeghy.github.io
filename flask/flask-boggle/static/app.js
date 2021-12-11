@@ -58,14 +58,26 @@ class Boggle {
         if (this.time === 0) {
             clearInterval(this.timer)
             await this.gameOver();
+            $("#timer", this.board).text("Time's up!");
         }
     }
 
     async gameOver() {
         //hide the input for new words
-        $(".submit-word", this.board).hid();
-        //use axios to save/report scores
+        $(".submit-word", this.board).hide();
+        
+        //take the current score and pass it to the /set-score route
+        const response = await axios.post("/set-score", { score : this.score });
 
+        //if the response is a new high score, celebrate. Otherwise report score as final.
+        if (response.data.newRecord) {
+            this.showMessages(`New High Score! ${this.score}`, "ok");
+        } else {
+            this.showMessages(`Final Score is ${this.score}`, "ok")
+        }
+
+        const $restartbutton = $("#hud").append($('<button >RESTART</button>'))
+        $restartbutton.on("click", () => location.reload())
     }
     //This event handler validates submissions
     // It checks if the entry is not empty or not already present in found wordbank
