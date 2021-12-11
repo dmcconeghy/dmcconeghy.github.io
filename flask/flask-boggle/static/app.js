@@ -80,12 +80,16 @@ class Boggle {
         
         // empty submissions not allowed
         if (!word) {
+            
             return;
         }
 
         // logic for already found words
         if (this.words.has(word)){
             //reply with message already found
+            this.showMessages(`${word} has already been found`, "err");
+            //remove the word from the input
+            $word.val("").focus()
             return;
         }
 
