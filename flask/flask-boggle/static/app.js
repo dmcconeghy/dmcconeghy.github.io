@@ -4,6 +4,7 @@ class Boggle {
     constructor(id){
         //has no words on creation, words must be unique
         this.words = new Set()
+        // ID of game board matches container div where app.py places the board
         this.board = $("#" + id)
         this.score = 0
 
@@ -15,8 +16,9 @@ class Boggle {
     //adds words as li members of a ul .words
     listWords(word) {
         $(".words", this.board).append($("<li>", { text: word }));
-      }
+    }
     
+    //Shows different messages in player HUD
     showMessages(message, clss){
         //add the inputted message, remove the previous class and add the new .msg .class
         $(".msg", this.board)
@@ -31,11 +33,16 @@ class Boggle {
         return wordScore;
     }
 
+    // This method updates a player's score for the round
     updateScore(word) {
         this.score += this.computeScore(word);
         $("#score", this.board).text(`Current Score: ${this.score}`)
     }
 
+    //This event handler validates submissions
+    // It checks if the entry is not empty or not already present in found wordbank
+    // It then checks if the entry is on the board and if it is a valid word
+    // If is new and unique, it adds it to the bank and updates the wordbank and score
     async handleSubmission(evt){
         // Do not reload page when a word is submitted
         evt.preventDefault();
@@ -71,11 +78,11 @@ class Boggle {
             this.listWords(word);
             //add to words set
             this.words.add(word);
-            //reply with success message
+            //update score
             this.updateScore(word)
+            //reply with success message
             this.showMessages(`"${word}" scores ${this.computeScore(word)} points`, "ok")
 
-            //calculate score
         }
 
         //no matter what's entered, clear for the next entry
