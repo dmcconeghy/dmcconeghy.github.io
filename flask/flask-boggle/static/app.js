@@ -5,22 +5,35 @@ class Boggle {
         //has no words on creation, words must be unique
         this.words = new Set()
         this.board = $("#" + id)
+        this.score = 0
 
         // Using the .submit-word form we set the event handler for word submission
+        // binding this means we're always referring to this particular board we've created on the DOM
         $(".submit-word", this.board).on("submit", this.handleSubmission.bind(this))
     }
 
+    //adds words as li members of a ul .words
     listWords(word) {
         $(".words", this.board).append($("<li>", { text: word }));
       }
-    // We use the /validate route to pass JSON with the server's reply about a word submission
     
     showMessages(message, clss){
-        //add a message with inputted message and class
+        //add the inputted message, remove the previous class and add the new .msg .class
         $(".msg", this.board)
         .text(message)
         .removeClass()
         .addClass(`msg ${clss}`);
+    }
+
+    // This method returns an individual word's score
+    computeScore(word) {
+        let wordScore = word.length;
+        return wordScore;
+    }
+
+    updateScore(word) {
+        this.score += this.computeScore(word);
+        $("#score", this.board).text(`Current Score: ${this.score}`)
     }
 
     async handleSubmission(evt){
@@ -42,8 +55,8 @@ class Boggle {
         }
 
         //logic for words not already found
+        // We use the /validate route to pass JSON with the server's reply about a word submission
         const response = await axios.get("/validate", { params: { word: word }});
-
 
         if (response.data.result === "not-word"){
             //reply with error for non-word
@@ -59,7 +72,8 @@ class Boggle {
             //add to words set
             this.words.add(word);
             //reply with success message
-            this.showMessages(`${word} added to your list,`, "ok")
+            this.updateScore(word)
+            this.showMessages(`"${word}" scores ${this.computeScore(word)} points`, "ok")
 
             //calculate score
         }

@@ -1,8 +1,12 @@
-#main {
+#main, #start {
     display: grid;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+}
+
+#start {
+    text-align: center;
 }
 
 h1 {
@@ -31,10 +35,6 @@ td {
     cursor: pointer;
 }
 
-.submit-word {
-    text-align: center;
-}
-
-#word-bank {
+.submit-word, #word-bank, #hud {
     text-align: center;
 }

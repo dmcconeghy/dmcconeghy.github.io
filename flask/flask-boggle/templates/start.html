@@ -3,8 +3,7 @@
 {% block title %} BOGGLE {% endblock %}}
 
 {% block content %}
-
-<h1>BOGGLE</h1>
+<div id="start">
 <p>
   Click start to begin a game of Boggle.
 </p>
@@ -12,9 +11,8 @@
   You will have 60 seconds to find as many words as you can.
 </p>
 
-
 <form action="/boggle">
   <button>Start!</button>
 </form>
-
+</div>
 {% endblock %}

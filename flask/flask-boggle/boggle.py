@@ -20,10 +20,11 @@ class Boggle():
 
     def make_board(self):
         """Make and return a random boggle board."""
-        # This employs the string module to grab uppercase letters to fill the board
+        
 
         board = []
-
+        # This employs the string module to grab uppercase letters to fill the board
+        # This is less than ideal for true boggle since it lacks logic to privilege certain letters. 
         for y in range(5):
             row = [choice(string.ascii_uppercase) for i in range(5)]
             board.append(row)
