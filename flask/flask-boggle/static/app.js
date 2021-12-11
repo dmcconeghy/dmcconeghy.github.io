@@ -1,12 +1,18 @@
 //Wrapping the JS in a class allows us to use .this to simplify variable handling
 class Boggle {
 
-    constructor(id){
+    constructor(id, time=60){
         //has no words on creation, words must be unique
         this.words = new Set()
         // ID of game board matches container div where app.py places the board
         this.board = $("#" + id)
         this.score = 0
+        this.time = time
+        
+        // set the timer to tick every second
+        this.timer = setInterval(this.countdown.bind(this), 1000);
+        //start the time
+        this.updateTimer();
 
         // Using the .submit-word form we set the event handler for word submission
         // binding this means we're always referring to this particular board we've created on the DOM
@@ -39,6 +45,28 @@ class Boggle {
         $("#score", this.board).text(`Current Score: ${this.score}`)
     }
 
+    //shows the timer in the DOM
+    updateTimer() {
+        $("#timer", this.board).text(this.time);
+    }
+
+    //register the seconds as they pass
+    async countdown() {
+        this.time -= 1;
+        this.updateTimer();
+
+        if (this.time === 0) {
+            clearInterval(this.timer)
+            await this.gameOver();
+        }
+    }
+
+    async gameOver() {
+        //hide the input for new words
+        $(".submit-word", this.board).hid();
+        //use axios to save/report scores
+
+    }
     //This event handler validates submissions
     // It checks if the entry is not empty or not already present in found wordbank
     // It then checks if the entry is on the board and if it is a valid word
