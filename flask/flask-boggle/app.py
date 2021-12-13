@@ -21,7 +21,7 @@ def home_page():
 
 @app.route("/boggle")
 def boggle_start():
-    """ Boggle board appears"""
+    """ Boggle board creation for DOM display"""
 
     board = boggle_game.make_board()
     session["board"] = board
@@ -33,7 +33,7 @@ def boggle_start():
 @app.route("/validate")
 def validate_submission():
     """ Check the dictionary for the submitted word.
-        Returns JSON for JS use.
+        Returns JSON for client JS use.
     """
     # Unclear why input name "submitted-word" doesn't work here but class "word" does
     check = boggle_game.check_valid_word(session["board"], request.args["word"])
@@ -42,7 +42,7 @@ def validate_submission():
 
 @app.route("/set-score", methods=["POST"])
 def set_score():
-    """Score and plays handler"""
+    """Handles scores, high scores, and playcount"""
     score = request.json["score"]
     highscore = session.get("highscore", 0)
     playcount = session.get("playcount", 0)
