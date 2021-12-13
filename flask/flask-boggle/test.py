@@ -41,12 +41,12 @@ class FlaskTests(TestCase):
 
         with self.client as client:
             with client.session_transaction() as sess:
-                sess['board'] = [["T", "E", "S", "T", "S"], 
-                                 ["T", "E", "S", "T", "S"], 
+                sess['board'] = [["N", "E", "R", "T", "S"], 
+                                 ["T", "A", "S", "T", "S"], 
                                  ["T", "E", "S", "T", "S"], 
                                  ["T", "E", "S", "T", "S"], 
                                  ["T", "E", "S", "T", "S"]]
-        response = self.client.get('/validate?word=test')
+        response = self.client.get('/validate?word=near')
         self.assertEqual(response.json['result'], 'ok')
 
     def test_not_found_word(self):
