@@ -19,7 +19,9 @@ class FlaskTests(TestCase):
     def tearDown(self):
         """After each test."""
         #I'm setting up. Must I tear down? If so, what? 
-
+        with self.client as client:
+            with client.session_transaction() as sess:
+                sess['board'] = []
 
     def test_startpage(self):
         """ Check that data is stored in session and that the base/start HTML is showing
@@ -46,7 +48,7 @@ class FlaskTests(TestCase):
                                  ["T", "E", "S", "T", "S"], 
                                  ["T", "E", "S", "T", "S"], 
                                  ["T", "E", "S", "T", "S"]]
-        response = self.client.get('/validate?word=near')
+        response = self.client.get('/validate?word=test')
         self.assertEqual(response.json['result'], 'ok')
 
     def test_not_found_word(self):
@@ -71,6 +73,6 @@ class FlaskTests(TestCase):
        #What test would run here? Would I use sess['playcount'] to see if it increments?
     
     #Other potential tests:
-    # Timer stops when countdown ends?
-    # New high score replaces an old one? 
-    # Whether a new game starts? 
+    # Timer stops when countdown ends? ** This is pure JS, test it with jasmine.
+    # New high score replaces an old one? ** set a score, pass the score to the route, then check if it updates.
+    # Whether a new game starts? ** check board before reload, reload adding new board, check if new board is different.
