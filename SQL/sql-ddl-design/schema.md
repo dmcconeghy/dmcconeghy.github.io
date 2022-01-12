@@ -9,7 +9,7 @@
 - A patient can be seen by many doctors
 - During a visit, a patient may be diagnosed to have one or more diseases.
 
-![Medical Center Diagram](/medical_center.jpg)
+![Medical Center Diagram](/SQL/sql-ddl-design/medical_center.jpg)
 
 ## Craigslist
 *Design a schema for Craigslist!*
@@ -19,7 +19,7 @@
 - Posts: contains title, text, the user who has posted, the location of the posting, the region of the posting
 - Categories that each post belongs to
 
-![Craigslist Diagram](/craigslist.jpg)
+![Craigslist Diagram](/SQL/sql-ddl-design/craigslist.jpg)
 
 ## Soccer League
 *Design a schema for a simple sports league.*
@@ -32,4 +32,4 @@
 - All of the start and end dates for season that a league has
 - The standings/rankings of each team in the league (This doesn’t have to be its own table if the data can be captured somehow).
 
-![Soccer League Diagram](/soccerleague.jpg)
+![Soccer League Diagram](/SQL/sql-ddl-design/soccerleague.jpg)
