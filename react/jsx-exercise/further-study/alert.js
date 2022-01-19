@@ -1,4 +1,7 @@
-function Alert() {
-    return <p>This is the alert component</p>
-    // alert(props.message)
+function Alert(props) {
+    
+    return (
+    <p class="alert">{ props.message }</p>
+    
+    )
 }

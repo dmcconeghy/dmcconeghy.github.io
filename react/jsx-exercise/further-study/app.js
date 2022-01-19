@@ -1,9 +1,7 @@
 function App() {
     return (
       <div>
-        <Alert />
-        <Button />
-        <Card />
+        <Card content="Can you believe this simple card?"/>
       </div>
     );
   }
