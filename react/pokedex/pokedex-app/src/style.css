@@ -1,0 +1,26 @@
+body {
+    background-color: white;
+}
+
+.Pokedex {
+    background-color: white;
+}
+
+.Pokecards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+.Pokecard {
+    flex: 1;
+    flex-basis: 5%;
+    background-color: bisque;
+    min-width: 150px;
+    max-width: 150px;
+    border: solid 1px black;
+    padding: 25px;
+    border-radius: 5px;
+    margin: 15px;
+    text-align: center;
+}
