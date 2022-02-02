@@ -1,0 +1,32 @@
+.App {
+  background-color: black;
+}
+
+.MagicWindow {
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.AnswerBox {
+  width: 250px;
+  height: 250px;
+  border-radius: 100%;
+  user-select: none;
+  background-color: white;
+  color: black;
+}
+
+.Answer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  font-size: x-large;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  border-radius: 100%;
+
+}
