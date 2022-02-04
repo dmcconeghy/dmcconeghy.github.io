@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+}
+
+.BoxForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: right;
+  background-color: grey;
+  padding: 5px;
+}
+
+.BoxForm input {
+  margin-left: 5px;
+}
+
+hr {
+  
+  height: 12px;
+  background: black;
+  margin-bottom: 50px;
+}
+
+.Boxes {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.TodoList {
+  display: inline-block;
+  padding: 5px;
+}
+
+.TodoList span {
+  margin-right: 15px;
+}

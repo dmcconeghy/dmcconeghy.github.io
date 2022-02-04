@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      style="background-color: green; height: 25px; width: 50px;"
+    />
+    <button>
+      Remove me!
+    </button>
+    I'm 25 tall and 50 wide.
+  </div>
+</DocumentFragment>
+`;

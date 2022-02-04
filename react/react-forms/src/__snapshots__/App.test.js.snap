@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="App"
+  >
+    <h1>
+      Forms
+    </h1>
+    <div>
+      <div
+        class="BoxForm"
+      >
+        <form>
+          <label
+            for="bgColor"
+          >
+            Background Color:
+          </label>
+          <input
+            id="bgColor"
+            name="bgColor"
+            placeholder="background-color"
+            type="textarea"
+          />
+          <br />
+          <label
+            for="width"
+          >
+            Width:
+          </label>
+          <input
+            id="width"
+            name="width"
+            placeholder="width"
+            type="textarea"
+          />
+          <br />
+          <label
+            for="height"
+          >
+            Height:
+          </label>
+          <input
+            id="height"
+            name="height"
+            placeholder="height"
+            type="textarea"
+          />
+          <br />
+          <button
+            name="submit"
+          >
+            Submit!
+          </button>
+        </form>
+      </div>
+      <div
+        class="Boxes"
+      />
+    </div>
+    <hr />
+    <div>
+      <div
+        class="TodoForm"
+      >
+        <form>
+          <label
+            for="todo"
+          >
+            Todo item:
+          </label>
+          <input
+            id="todo"
+            name="todo"
+            placeholder="Enter a todo item"
+            type="textarea"
+            value=""
+          />
+          <button
+            name="submit"
+          >
+            Add it!
+          </button>
+        </form>
+      </div>
+      <br />
+      <div>
+        <h4>
+          Your Todos:
+        </h4>
+        <div
+          class="TodoList"
+        >
+          <ul />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
