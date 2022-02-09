@@ -1,6 +1,8 @@
+from ctypes.wintypes import tagSIZE
+from click import edit
 from flask import Flask, request, redirect, render_template, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///blogly"
@@ -28,8 +30,6 @@ def root():
 #     """Redirect for 404s"""
 
 #     return redirect ("404.html"), 404
-
-
 
 # ********************** USER ROUTES ************************
 
@@ -114,17 +114,22 @@ def posts_new_form(user_id):
     """Show a form for a user's new post"""
 
     user = User.query.get_or_404(user_id)
-    return render_template('posts/new.html', user=user)
+    tags = Tag.query.all()
+    return render_template('posts/new.html', user=user, tags=tags)
 
 @app.route('/users/<int:user_id>/posts/new', methods=["POST"])
 def posts_new(user_id):
     """A form for a user's new posts"""
 
     user = User.query.get_or_404(user_id)
+    tags_ids = [int(num) for num in request.form.getlist("tags")]
+    tags = Tag.query.filter(Tag.id.in_(tags_ids)).all()
+
     new_post = Post(
         title=request.form['post_title'],
         content=request.form['post_content'], 
-        user=user)
+        user=user, 
+        tags=tags)
 
     db.session.add(new_post)
     db.session.commit()
@@ -144,7 +149,8 @@ def posts_edit(post_id):
     """Edit an existing post"""
 
     post = Post.query.get_or_404(post_id)
-    return render_template('posts/edit.html', post=post)
+    tags = Tag.query.all()
+    return render_template('posts/edit.html', post=post, tags=tags)
 
 @app.route('/posts/<int:post_id>/edit', methods=["POST"])
 def posts_update(post_id):
@@ -153,6 +159,9 @@ def posts_update(post_id):
     post = Post.query.get_or_404(post_id)
     post.title = request.form['post_title']
     post.content = request.form['post_content']
+
+    tag_ids = [int(num) for num in request.form.getlist("tags")]
+    post.tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
 
     db.session.add(post)
     db.session.commit()
@@ -171,3 +180,78 @@ def posts_destroy(post_id):
     flash(f"Post '{post.title} deleted.")
 
     return redirect(f"/users/{post.user_id}")
+
+
+#************** Tag ROUTES **********************
+
+@app.route('/tags')
+def list_tags():
+    """Displays all tags"""
+
+    tags = Tag.query.order_by(Tag.name.asc()).all()
+
+    return render_template('tags/index.html', tags=tags)
+
+@app.route('/tags/new')
+def add_tags_form():
+    """Form for new tags"""
+
+    posts = Post.query.all()
+    return render_template('tags/new.html', posts=posts)
+
+@app.route('/tags/new', methods=["POST"])
+def add_tag():
+    """Processes new tag"""
+
+    post_ids = [int(num) for num in request.form.getlist("posts")]
+    posts = Post.query.filter(Post.id.in_(post_ids)).all()
+    new_tag = Tag(name=request.form['name'], posts=posts)
+    
+    db.session.add(new_tag)
+    db.session.commit()
+    flash(f"Post '{new_tag.name}' added.")
+
+    return redirect("/tags")
+
+@app.route('/tags/<int:tag_id>')
+def tag_detail(tag_id):
+    """Show details about a tag"""
+
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template('tags/show.html', tag=tag)
+
+@app.route('/tags/<int:tag_id>/edit')
+def edit_tag_form(tag_id):
+    """Show edit tag form"""
+
+    tag = Tag.query.get_or_404(tag_id)
+    posts = Post.query.all()
+    
+    return render_template('tags/edit.html', tag=tag, posts=posts)
+
+@app.route('/tags/<int:tag_id>/edit', methods=["POST"])
+def edit_tag(tag_id):
+    """ Handles editing a tag"""
+
+    tag = Tag.query.get_or_404(tag_id)
+    tag.name = request.form['tag_name']
+    post_ids = [int(num) for num in request.form.getlist("posts")]
+    tag.posts = Post.query.filter(Post.id.in_(post_ids)).all()
+
+    db.session.add(tag)
+    db.session.commit()
+    flash(f"Tag '{tag.name}' edited.")
+
+    return redirect("/tags")
+
+@app.route('/tags/<int:tag_id>/delete', methods=["POST"])
+def tags_destroy(tag_id):
+    """Handle submission for deleting a tag"""
+
+    tag = Tag.query.get_or_404(tag_id)
+    db.session.delete(tag)
+    db.session.commit()
+    flash(f"Tag '{tag.name}' deleted")
+
+    return redirect("/tags")

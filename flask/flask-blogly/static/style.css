@@ -1,3 +1,9 @@
+body {
+    min-width: 300px;
+}
+
 .navbar {
     padding: 10px;
+    padding-right: 50px;
+    
 }
