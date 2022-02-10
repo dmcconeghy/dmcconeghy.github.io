@@ -50,7 +50,7 @@ def show_Pet(id):
     if form.validate_on_submit():
         pet.name=form.name.data
         pet.species=form.species.data
-        pet.photo_url=form.photo_url.data or default_image
+        pet.photo_url=form.photo_url.data
         pet.age=form.age.data
         pet.notes=form.notes.data
         pet.available=form.available.data
