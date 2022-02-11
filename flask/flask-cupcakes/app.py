@@ -14,6 +14,19 @@ app.debug = True
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
+db.create_all()
+
+def serialize_cupcakes(cupcake):
+    """Serialize our cupcake SQLAlchemy object into a dictionary"""
+
+    return {
+        "id": cupcake.id,
+        "flavor": cupcake.flavor,
+        "size": cupcake.size,
+        "rating": cupcake.rating,
+        "image": cupcake.image,
+    }
+
 
 @app.route('/')
 def root():
@@ -23,20 +36,22 @@ def root():
     return render_template("/index.html")
 
 @app.route('/api/cupcakes')
-def list_cupcakes():
+def get_cupcakes():
     """Return JSON: {cupcakes: [{id, flavor, size, rating, image}, ...]}"""
 
-    cupcakes = [cupcake.to_dict() for cupcake in Cupcake.query.all()]
+    cupcakes = Cupcake.query.all()
+    serialized = [serialize_cupcakes(c) for c in cupcakes]
 
-    return jsonify(cupcakes=cupcakes)
+    return jsonify(cupcakes=serialized)
 
 @app.route('/api/cupcakes/<cupcake_id>')
 def show_cupcake(cupcake_id):
     """Returns JSON: {cupcake: {id, flavor, size, rating, image}}"""
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
+    serialized = serialize_cupcakes(cupcake)
 
-    return jsonify(cupcake=cupcake.to_dict())
+    return jsonify(cupcake=serialized)
 
 @app.route('/api/cupcakes', methods=["POST"])
 def create_cupcake():
@@ -44,19 +59,19 @@ def create_cupcake():
     Create cupcake with request data, 
     return JSON: {cupcake: {id, flavor, size, rating, image}}
     """
-    data = request.json
+    flavor = request.json["flavor"]
+    size = request.json["size"]
+    rating = request.json["rating"]
+    image = request.json["image"] or None
 
-    new_cupcake = Cupcake(
-        flavor = data["flavor"],
-        size = data["size"],
-        rating = data["rating"],
-        image = data["image"] or None)
-        
+    new_cupcake = Cupcake(flavor=flavor, size=size, rating=rating, image=image)
 
     db.session.add(new_cupcake)
     db.session.commit()
 
-    return (jsonify(cupcake=new_cupcake.todict()), 201)
+    serialized = serialize_cupcakes(new_cupcake)
+
+    return (jsonify(cupcake=serialized), 201)
     # return jsonify(cupcake=serialized)
 
 @app.route('/api/cupcakes/<cupcake_id>', methods=["PATCH"])
@@ -66,26 +81,22 @@ def patch_cupcake(cupcake_id):
     Returns JSON: {cupcake: {id, flavor, size, rating, image}}
     """
 
-    data = request.json
-
     cupcake = Cupcake.query.get_or_404(cupcake_id)
+    cupcake.flavor = request.json.get('flavor', cupcake.flavor)
+    cupcake.size = request.json.get('size', cupcake.size)
+    cupcake.rating = request.json.get('rating', cupcake.rating)
+    cupcake.image = request.json.get('image', cupcake.image)
 
-    cupcake.flavor = data('flavor', cupcake.flavor)
-    cupcake.size = data('size', cupcake.size)
-    cupcake.rating = data('rating', cupcake.rating)
-    cupcake.image = data('image', cupcake.image)
-
-    db.session.add(cupcake)
     db.session.commit()
 
-    return jsonify(cupcake=cupcake.to_dict())
+    serialized = serialize_cupcakes(cupcake)
+
+    return jsonify(cupcake=serialized)
 
 @app.route('/api/cupcakes/<cupcake_id>', methods=["DELETE"])
 def delete_cupcake(cupcake_id):
     """ 404 or delete cupcake"""
     cupcake = Cupcake.query.get_or_404(cupcake_id)
-
     db.session.delete(cupcake)
     db.session.commit()
-    
     return jsonify(message="Deleted")

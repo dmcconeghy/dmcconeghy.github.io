@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "http://127.0.0.1:5000/api";
 
 
 /** given data about a cupcake, generate html */
@@ -21,14 +21,8 @@ function generateCupcakeHTML(cupcake) {
 /** put initial cupcakes on page. */
 
 async function showInitialCupcakes() {
-//   const response = await axios.get({
-//       url: `${BASE_URL}/cupcakes`,
-//       withCredentials: false
-//   });
-// returns 404 error: http://127.0.0.1:5000/[object%20Object] 
 
-// Returns CORS error
-const response = await axios.get(`${BASE_URL}/cupcakes`);
+const response = await axios.get(`${BASE_URL}/cupcakes`)
 
   for (let cupcakeData of response.data.cupcakes) {
     let newCupcake = $(generateCupcakeHTML(cupcakeData));
