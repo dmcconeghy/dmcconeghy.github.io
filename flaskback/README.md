@@ -23,6 +23,7 @@ My initial proposal (following a proposal template) was:
 ## Flashback: A Music Memory Project
 
 ## Springboard Capstone I Proposal by Dave McConeghy
+[View this proposal in Google Docs](https://docs.google.com/document/d/1gXzn_mwFInoAnlA48n6XPhq4FItoeB0_nv4R6NYPp1A/edit?usp=sharing)
 
 ### Overview:
 
