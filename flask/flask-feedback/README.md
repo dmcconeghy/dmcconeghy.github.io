@@ -1,0 +1,2 @@
+Flask-feedback is an exercise assignment for Springboard's Software Engineering Career Track Bootcamp. 
+It focuses on properly authenticating users using Bcrypt and setting up basic login/logout routes with a simple CRUD for user feedback. 

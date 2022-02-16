@@ -1,0 +1,17 @@
+.container {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.navbar {
+    padding-left: 10px;
+}
+
+.feedback-body {
+    padding-left: 20px;
+}
+
+.user-info {
+    padding: 10px;
+    margin: 10px;
+}
