@@ -38,20 +38,24 @@ This is a unit project for Springboard's Software Engineering bootcamp.
 
 ### Step Two [x]
 
-- Fix Logout route
+- Fix Logout route to log users out
 
 ### Step Three [x]
 
-- Fix User Profile
+- Fix User Profile to show user details
 
 ### Step Four [x]
 
-- Fix User Cards
+- Fix User Cards to include user details
 
 ### Step Five [X]
 
-- Add Profile Edit
+- Add Profile Editing with password authentication
   - Changing profile details while authenticating a user's password was a sticking point.
   - Noticed that salting errors do not return unauthorized or invalid credentials. 
 
-### Step Six []
+### Step Six [x]
+
+- Fix Homepage to show only follower's messages
+
+### Step Seven []
