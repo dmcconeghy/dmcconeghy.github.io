@@ -58,4 +58,17 @@ This is a unit project for Springboard's Software Engineering bootcamp.
 
 - Fix Homepage to show only follower's messages
 
-### Step Seven []
+### Step Seven [x]
+
+<details>
+
+<summary>
+Conceptual Questions
+</summary>
+
+  - How is logged in user tracked? | What is Flask's g object? | What is the purpose of add_user_to_g? 
+    - *App.py uses `g` to invoke the global context and track the user based on the `if CURR_USER_KEY in session` by storing the user's session key within the function `add_user_to_g` as `g.user`*
+  - What does `@app.before_request` mean?
+    - *`@app.before_request` runs before each request made to our server. In practice this means e.g when the site is loaded or a request to a route is made, we check for a session user and then deliver either the user through `g.user` or return `None`.*
+    -  
+</details>
