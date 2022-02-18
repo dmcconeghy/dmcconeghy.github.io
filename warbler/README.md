@@ -47,4 +47,11 @@ This is a unit project for Springboard's Software Engineering bootcamp.
 ### Step Four [x]
 
 - Fix User Cards
-        
+
+### Step Five [X]
+
+- Add Profile Edit
+  - Changing profile details while authenticating a user's password was a sticking point.
+  - Noticed that salting errors do not return unauthorized or invalid credentials. 
+
+### Step Six []
