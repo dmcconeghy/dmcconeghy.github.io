@@ -2,9 +2,16 @@ Welcome to Warbler!
 
 This is a unit project for Springboard's Software Engineering bootcamp. 
 
+<details>
+
+<summary>
+PART ONE: Fix current features
+</summary>
+
 ### Step One [x]
 
 <details>
+
    <summary> Explore models, check routes </summary>
 
 - Explore models.py
@@ -71,4 +78,6 @@ Conceptual Questions
   - What does `@app.before_request` mean?
     - *`@app.before_request` runs before each request made to our server. In practice this means e.g when the site is loaded or a request to a route is made, we check for a session user and then deliver either the user through `g.user` or return `None`.*
     -  
+</details>
+
 </details>

@@ -22,17 +22,19 @@
                 {% elif g.user.is_following(message.user) %}
                   <form method="POST"
                         action="/users/stop-following/{{ message.user.id }}">
-                    <button class="btn btn-primary">Unfollow</button>
+                    <button class="btn btn-primary btn-sm">Unfollow</button>
                   </form>
                 {% else %}
                   <form method="POST" action="/users/follow/{{ message.user.id }}">
                     <button class="btn btn-outline-primary btn-sm">Follow</button>
                   </form>
                 {% endif %}
+                <!-- Possible like button goes here. -->
               {% endif %}
             </div>
             <p class="single-message">{{ message.text }}</p>
             <span class="text-muted">{{ message.timestamp.strftime('%d %B %Y') }}</span>
+            
           </div>
         </li>
       </ul>

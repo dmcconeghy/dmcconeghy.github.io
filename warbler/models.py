@@ -96,6 +96,7 @@ class User(db.Model):
 
     messages = db.relationship('Message')
 
+
     followers = db.relationship(
         "User",
         secondary="follows",
