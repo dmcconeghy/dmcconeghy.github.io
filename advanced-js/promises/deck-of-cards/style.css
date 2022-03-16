@@ -1,0 +1,16 @@
+body {
+    text-align: center;
+    background-color: green;
+  }
+  
+#table {
+    margin-top: 80px;
+  }
+  
+#table > img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+  
