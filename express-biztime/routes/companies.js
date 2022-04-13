@@ -26,7 +26,7 @@ router.get("/", async function(req, res, next) {
 
 router.get("/:code", async function(req, res, next) {
     try {
-        const code = req.params.body
+        const code = req.params.code
 
         const companyResult = await db.query(
             `SELECT code, name, description
@@ -40,15 +40,24 @@ router.get("/:code", async function(req, res, next) {
              FROM invoices
              WHERE comp_code=$1`,
              [code]
-            );   
+            );
+            
+        const industryResult = await db.query(
+            `SELECT code
+             FROM industries
+             WHERE code=$1`,
+             [code]
+        );
         
         if (companyResult.rows.length === 0){
             throw new ExpressError(`Company code ${code} not found`, 404);
         }
         const company = companyResult.rows[0];
         const invoices = invoiceResult.rows;
+        const industries = industryResult.rows
 
         company.invoices = invoices.map(inv => inv.id);
+        company.industries = industries.map(ind => ind.code)
 
         return res.json({"company": company});
 
@@ -110,10 +119,13 @@ router.put("/:code", async function(req, res, next) {
 router.delete("/:code", async function(req, res, next) {
     try {
 
+        const code = req.params.code
+
         const result = await db.query(
             `DELETE FROM companies 
-             WHERE code = $1`, 
-             [req.params.code]
+             WHERE code = $1
+             RETURNING code`, 
+             [code]
             );
         
         if (result.rows.length === 0){

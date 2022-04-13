@@ -33,7 +33,7 @@ router.get("/:id", async function(req, res, next) {
                     i.paid_date,
                     c.name,
                     c.description
-             FROM inovices AS i
+             FROM invoices AS i
              INNER JOIN companies AS c ON (i.comp_code = c.code)
              WHERE id=$1`,
             [id]
@@ -73,7 +73,7 @@ router.post("/", async function(req, res, next) {
         const result = await db.query(
             `INSERT INTO invoices (comp_code, amt)
              VALUES($1, $2)
-             RETURNING id, comp_code, amt, paid, add_date, paid_date`, 
+             RETURNING comp_code, amt, paid, add_date, paid_date`, 
              [comp_code, amt]
         );
 
@@ -86,7 +86,7 @@ router.post("/", async function(req, res, next) {
 });
 
 
-// NEEDS 404
+
 router.put("/:id", async function(req, res, next) {
     try {
 
@@ -118,11 +118,11 @@ router.put("/:id", async function(req, res, next) {
             `UPDATE invoices 
              SET amt=$1, paid=$2, paid_date=$3
              WHERE id=$4
-             RETURNING id, comp_code, amt, paid, add_date, paid_date`,
+             RETURNING comp_code, amt, paid, add_date`,
              [amt, paid, paidDate, id]
         );
 
-        return res.json({"invoice": result.row[0]})
+        return res.json({"invoice": result.rows[0]})
 
     } catch(err){
 
@@ -132,21 +132,23 @@ router.put("/:id", async function(req, res, next) {
 });
 
 // NEEDS 404
-router.delete("/invoices/:id", async function(req, res, next) {
+router.delete("/:id", async function(req, res, next) {
     try {
+
+        const id = req.params.id
 
         const result = await db.query(
            `DELETE FROM invoices 
             WHERE id=$1
             RETURNING id`, 
-            [req.params.id]
+            [id]
             );
 
         if (result.rows.length === 0){
             throw new ExpressError(`Invoice id ${id} not found`, 404);
         }
 
-        return res.json({"status": "Deleted"});
+        return res.json({"status": "deleted"});
 
     } catch(err) {
 
