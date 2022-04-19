@@ -8,6 +8,9 @@ const DB_URI = (process.env.NODE_ENV === "test")
   ? "postgresql:///messagely_test"
   : "postgresql:///messagely";
 
+// This key is for local testing only. 
+// This project is not fully deployed. 
+
 const SECRET_KEY = process.env.SECRET_KEY || "secret";
 
 const BCRYPT_WORK_FACTOR = 12;

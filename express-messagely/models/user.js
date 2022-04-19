@@ -1,5 +1,6 @@
 /** User class for message.ly */
 
+const bcrypt = require("bcrypt")
 const { BCRYPT_WORK_FACTOR } = require("../config");
 const db = require("../db");
 const ExpressError = require("../expressError");
@@ -14,7 +15,7 @@ class User {
 
   static async register({username, password, first_name, last_name, phone}) {
 
-    const hashedPassword = await BCRYPT_WORK_FACTOR.hash(password, BCRYPT_WORK_FACTOR);
+    const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
     const result = await db.query(
       `INSERT INTO users 
@@ -40,7 +41,7 @@ class User {
 
     let user = result.rows[0];
 
-    return user && await BCRYPT_WORK_FACTOR.compare(password, user.password)
+    return user && await bcrypt.compare(password, user.password)
 
     }
    
@@ -114,9 +115,9 @@ class User {
 
   static async messagesFrom(username) { 
     const result = await db.query(
-      `SELECT m.username, m.first_name, m.last_name, m.phone, m.body, m.sent_at, m.read_at 
+      `SELECT m.id, m.to_username, u.first_name, u.last_name, u.phone, m.body, m.sent_at, m.read_at 
        FROM messages AS m
-       JOIN users AS u ON m.to_usernam = u.username
+       JOIN users AS u ON m.to_username = u.username
        WHERE from_username = $1`, 
        [username]
     )
@@ -131,7 +132,7 @@ class User {
           phone: m.phone
         },
       body: m.body,
-      sent_at: m.sent_At,
+      sent_at: m.sent_at,
       read_at: m.read_at
     }));  
 
@@ -160,7 +161,7 @@ class User {
       id: m.id,
       from_user: 
         {
-          usernmae: m.from_username,
+          username: m.from_username,
           first_name: m.first_name,
           last_name: m.last_name,
           phone: m.phone,
@@ -171,6 +172,5 @@ class User {
     }));
   }
 }
-
 
 module.exports = User;
