@@ -1,5 +1,7 @@
-const router = new express.Router();
-const User = require("../models/users")
+const Router = require("express").Router
+const router = new Router()
+
+const User = require("../models/user")
 const { ensureLoggedIn, ensureCorrectUser } = require("../middleware/auth")
 
 /** GET / - get list of users.
@@ -68,4 +70,4 @@ router.get("/:username/from", ensureCorrectUser, async function(req, res, next){
     }
 })
 
-module.exports = router
+module.exports = router;

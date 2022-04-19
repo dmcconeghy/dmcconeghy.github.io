@@ -1,11 +1,9 @@
-const express = require("express");
-const router = new express.Router();
-const ExpressError = require("../expressError");
-const db = require("../db");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken")
-const { BCRYPT_WORK_FACTOR, SECRET_KEY } = require("../config");
+const Router = require("express").Router
+const router = new Router()
 
+const ExpressError = require("../expressError");
+const jwt = require("jsonwebtoken")
+const { SECRET_KEY } = require("../config");
 const User = require("../models/user");
 
 /** POST /login - login: {username, password} => {token}
@@ -54,3 +52,5 @@ router.post("/register", async function (req, res, next) {
     
     }
 })
+
+module.exports = router;
