@@ -1,6 +1,11 @@
 const { BadRequestError } = require("../expressError");
 
-// THIS NEEDS SOME GREAT DOCUMENTATION.
+// For db updates that do not require or include all non-required fields
+// Use the following generator to create the appropriate SQL queries. 
+// Error check for no data first, 
+// Then proceed for each provided key-value pair
+// Assign the key its corresponding value
+// Join the query and return the query plus the values we're updating. 
 
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   const keys = Object.keys(dataToUpdate);
