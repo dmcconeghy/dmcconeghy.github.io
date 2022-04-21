@@ -61,6 +61,103 @@ class Company {
     return companiesRes.rows;
   }
 
+  static async findWithFilters(minEmployees, maxEmployees, nameLike){
+
+    if (maxEmployees && minEmployees > maxEmployees){
+      throw new BadRequestError("Minimum Employees can't be greater than Max Employees")
+
+    } else if (minEmployees < 0 || maxEmployees < 0) {
+      throw new BadRequestError("Employees can't be fewer than 0!");
+
+    } else if (minEmployees > 5000000 || maxEmployees > 5000000){
+      throw new BadRequestError("No company in the world is that big!")
+    }
+
+    // Only return nameLike matches
+    if (!minEmployees && !maxEmployees && nameLike){
+      
+      const companiesRes = await db.query(
+        `SELECT handle, 
+                name,
+                description,
+                num_employees AS "numEmployees",
+                logo_url AS "logoURL"
+         FROM companies
+         WHERE name ILIKE $1
+         ORDER BY name`, [`%${nameLike}%`]);
+
+      return companiesRes.rows
+
+    // return only companies below the max or above the min or between the range of min-max
+    } else if (!nameLike) {
+
+        // return only companies below a max
+        if (!minEmployees) {
+
+          const companiesRes = await db.query(
+          `SELECT handle, 
+                name,
+                description,
+                num_employees AS "numEmployees",
+                logo_url AS "logoURL"
+          FROM companies
+          WHERE num_employees <= $1
+          ORDER BY num_employees, name`, 
+          [maxEmployees]);
+
+         return companiesRes.rows
+
+        // return only companies above a min
+        } else if (!maxEmployees){
+
+          const companiesRes = await db.query(
+          `SELECT handle, 
+                  name,
+                  description,
+                  num_employees AS "numEmployees",
+                  logo_url AS "logoURL"
+          FROM companies
+          WHERE num_employees >= $1
+          ORDER BY num_employees, name`, 
+          [minEmployees]);
+
+          return companiesRes.rows
+
+          // Return companies between a min and max
+        } else {
+          
+          const companiesRes = await db.query(
+            `SELECT handle, 
+                  name,
+                  description,
+                  num_employees AS "numEmployees",
+                  logo_url AS "logoURL"
+             FROM companies
+             WHERE num_employees BETWEEN $1 AND $2
+             ORDER BY num_employees, name`,
+             [minEmployees, maxEmployees])
+          return companiesRes.rows
+        }
+
+        // return companies between a min/max with a namelike match
+    } else {
+
+
+      const companiesRes = await db.query(
+        `SELECT handle, 
+              name,
+              description,
+              num_employees AS "numEmployees",
+              logo_url AS "logoURL"
+         FROM companies
+         WHERE name ILIKE '%$1%' AND num_employees BETWEEN $2 AND $3
+         ORDER BY name, num_employees`,
+         [nameLike, minEmployees, maxEmployees])
+      return companiesRes.rows
+    }
+  }
+
+
   /** Given a company handle, return data about company.
    *
    * Returns { handle, name, description, numEmployees, logoUrl, jobs }
@@ -90,7 +187,7 @@ class Company {
   /** Update company data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain all the
-   * fields; this only changes provided ones.
+   * fields; this only changes with provided data.
    *
    * Data can include: {name, description, numEmployees, logoUrl}
    *

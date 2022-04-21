@@ -145,7 +145,7 @@ class User {
   /** Update user data with `data`.
    *
    * This is a "partial update" --- it's fine if data doesn't contain
-   * all the fields; this only changes provided ones.
+   * all the fields; this only changes the provided ones.
    *
    * Data can include:
    *   { firstName, lastName, password, email, isAdmin }
