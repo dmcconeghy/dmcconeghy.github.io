@@ -61,8 +61,26 @@ class Company {
     return companiesRes.rows;
   }
 
+   /** Find all companies using optional filters.
+   *   data should be { minEmployees = number > 0 < maxEmployees
+   *                    maxEmployees = number > 0 > minEmployees
+   *                    nameLike = alphanumeric of match(/^[a-z0-9_-]{3,15}$/)
+   *                  }   
+   *
+   * Returns [{ companies }] filtered by any combination of min/max/name.
+   * 
+   * Failures of invalid input throw custom BadRequestError
+   * */
+
   static async findWithFilters(minEmployees, maxEmployees, nameLike){
 
+    // Check for number inputs only on min/max Employees filter
+    if ((maxEmployees && typeof parseInt(maxEmployees) != "number") || 
+        (minEmployees && typeof parseInt(minEmployees) != "number")) {
+          throw new BadRequestError("Employee filter must be a number")
+    }
+
+    // Logic checks for num_employees
     if (maxEmployees && minEmployees > maxEmployees){
       throw new BadRequestError("Minimum Employees can't be greater than Max Employees")
 
@@ -71,6 +89,15 @@ class Company {
 
     } else if (minEmployees > 5000000 || maxEmployees > 5000000){
       throw new BadRequestError("No company in the world is that big!")
+    }
+
+    // RegExp check for valid characters 
+    if(nameLike){
+      try {
+        nameLike.match(/^[a-z0-9_-]{3,15}$/)
+      } catch(err){
+        throw new BadRequestError("Name searches must be alpha numerics strings under 15 characters.")
+      }
     }
 
     // Only return nameLike matches
@@ -150,9 +177,9 @@ class Company {
               num_employees AS "numEmployees",
               logo_url AS "logoURL"
          FROM companies
-         WHERE name ILIKE '%$1%' AND num_employees BETWEEN $2 AND $3
+         WHERE name ILIKE $1 AND num_employees BETWEEN $2 AND $3
          ORDER BY name, num_employees`,
-         [nameLike, minEmployees, maxEmployees])
+         [`%${nameLike}%`, minEmployees, maxEmployees])
       return companiesRes.rows
     }
   }

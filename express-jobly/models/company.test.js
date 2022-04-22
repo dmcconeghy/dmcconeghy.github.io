@@ -1,8 +1,13 @@
 "use strict";
 
+const request = require("supertest")
+
 const db = require("../db.js");
+const app = require("../app");
+
 const { BadRequestError, NotFoundError } = require("../expressError");
 const Company = require("./company.js");
+
 const {
   commonBeforeAll,
   commonBeforeEach,
@@ -205,4 +210,155 @@ describe("remove", function () {
       expect(err instanceof NotFoundError).toBeTruthy();
     }
   });
+})
+
+/************************************** search filters */
+
+describe("filters", function () {
+  test("name search results", async function() {
+    const response = await request(app).get("/companies?nameLike=C1");
+
+    expect(response.body).toEqual({
+      companies: 
+        [{
+          description: "Desc1",
+          handle: "c1",
+          logoURL: "http://c1.img",
+          name: "C1",
+          numEmployees: 1
+        }]
+    })
+    
+  })
+
+  test("min only search results", async function (){
+    const response = await request(app).get("/companies?minEmployees=3");
+
+    expect(response.body).toEqual({
+      companies: 
+        [{
+          description: "Desc3",
+          handle: "c3",
+          logoURL: "http://c3.img",
+          name: "C3",
+          numEmployees: 3
+        }]
+    })
+  })
+
+  test("max only search results", async function (){
+    const response = await request(app).get("/companies?maxEmployees=1");
+
+    expect(response.body).toEqual({
+      companies: 
+        [{
+          description: "Desc1",
+          handle: "c1",
+          logoURL: "http://c1.img",
+          name: "C1",
+          numEmployees: 1
+        }]
+    })
+
+  })
+
+  test("min-max only search results", async function (){
+    const response = await request(app).get("/companies?minEmployees=1&maxEmployees=2");
+
+    expect(response.body).toEqual({
+      companies: 
+        [{
+          description: "Desc1",
+          handle: "c1",
+          logoURL: "http://c1.img",
+          name: "C1",
+          numEmployees: 1
+        },
+        {
+          description: "Desc2",
+          handle: "c2",
+          logoURL: "http://c2.img",
+          name: "C2",
+          numEmployees: 2
+        }]
+    })
+
+  })
+
+  test("min-max + name search results", async function (){
+    const response = await request(app).get("/companies?minEmployees=1&maxEmployees=3&nameLike=C2");
+
+    expect(response.body).toEqual({
+      companies: 
+        [{
+          description: "Desc2",
+          handle: "c2",
+          logoURL: "http://c2.img",
+          name: "C2",
+          numEmployees: 2
+        }]
+    })
+
+  })
+  
+  test("filter error handling", async function(){
+
+    // bad name input
+    try {
+      await request(app).get("/companies?nameLike=&)*&)@#")
+    } catch (err) {
+      expect(resp.statusCode).toEqual(400)
+    }
+
+    // bad min/max relationship
+    try {
+      await request(app).get("/companies?minEmployees=1000&maxEmployees=5")
+    } catch(err){
+        expect(resp.statusCode).toEqual(400)
+    }
+
+    // bad min negative numeric input
+    try {
+      await request(app).get("/companies?minEmployees=-1")
+    } catch(err){
+        expect(resp.statusCode).toEqual(400)
+    }
+
+    // bad max negative numeric input
+    try {
+      await request(app).get("/companies?maxEmployees=-1")
+    } catch(err){
+        expect(resp.statusCode).toEqual(400)
+    }
+
+    // bad min overflow numeric input
+    try {
+      await request(app).get("/companies?minEmployees=1000000000")
+    } catch(err){
+        expect(resp.statusCode).toEqual(400)
+    }
+
+    // bad  max overflow numeric input
+    try {
+      await request(app).get("/companies?maxEmployees=1000000000")
+    } catch(err){
+        expect(resp.statusCode).toEqual(400)
+    }
+
+    // bad min non-numeric input 
+    try {
+      await request(app).get("/companies?minEmployees=abc(*^(*^")
+    } catch(err){
+        expect(resp.statusCode).toEqual(400)
+    }
+
+    // bad max non-numeric input 
+    try {
+      await request(app).get("/companies?maxEmployees=abc(*^(*^")
+    } catch(err){
+        expect(resp.statusCode).toEqual(400)
+    }
+
+  })
+
 });
