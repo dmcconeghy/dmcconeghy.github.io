@@ -60,11 +60,11 @@ router.get("/", async function (req, res, next) {
       // Return all if no filters selected
       if (!minEmployees && !maxEmployees && !nameLike) {
         const companies = await Company.findAll();
-        console.log("I ran no parameters")
+        // console.log("I ran no parameters")
         return res.json({companies})
       } else {
         const companies = await Company.findWithFilters(minEmployees, maxEmployees, nameLike)
-        console.log("I ran some parameters")
+        // console.log("I ran some parameters")
         return res.json({companies})
       }
 
