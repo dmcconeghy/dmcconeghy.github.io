@@ -227,9 +227,9 @@ describe("filters", function () {
           name: "C1",
           numEmployees: 1
         }]
-    })
+    });
     
-  })
+  });
 
   test("min only search results", async function (){
     const response = await request(app).get("/companies?minEmployees=3");
@@ -243,8 +243,8 @@ describe("filters", function () {
           name: "C3",
           numEmployees: 3
         }]
-    })
-  })
+    });
+  });
 
   test("max only search results", async function (){
     const response = await request(app).get("/companies?maxEmployees=1");
