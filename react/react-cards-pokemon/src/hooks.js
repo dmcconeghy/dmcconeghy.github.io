@@ -18,19 +18,23 @@ const useFlipCard = (initialState = true) => {
 }
 
 
-const useAxios = (URL) => {
+const useAxios = BASEURL => {
 
-    const [data, setData] = useState([])
+    const [ data, setData ] = useState([])
 
-    const getData = async () => {
-        const response = await axios.get(URL);
+    const addData = async name => {
+        let endpoint = name ? `${BASEURL}${name}/` : BASEURL;
+        console.log(name)
 
-        setData(cards => [...cards, {...response.data, id: uuid() }])
+
+        const response = await axios.get(endpoint)
+
+        setData(data => [...data,{ ...response.data, id: uuid() } ])
     }
 
+    const deleteData = () => setData([])
 
-
-    return ([data, getData]);
+    return ([data, addData, deleteData]);
 }
 
 export {useFlipCard, useAxios}; 
