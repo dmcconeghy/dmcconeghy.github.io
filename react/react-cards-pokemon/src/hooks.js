@@ -1,4 +1,7 @@
+import axios from "axios";
 import { useState } from "react";
+import uuid from "uuid";
+
 
 const useFlipCard = (initialState = true) => {
 
@@ -10,8 +13,24 @@ const useFlipCard = (initialState = true) => {
     
     };
 
-    return ([state, flipCard])
+    return ([state, flipCard]);
 
 }
 
-export default useFlipCard; 
+
+const useAxios = (URL) => {
+
+    const [data, setData] = useState([])
+
+    const getData = async () => {
+        const response = await axios.get(URL);
+
+        setData(cards => [...cards, {...response.data, id: uuid() }])
+    }
+
+
+
+    return ([data, getData]);
+}
+
+export {useFlipCard, useAxios}; 

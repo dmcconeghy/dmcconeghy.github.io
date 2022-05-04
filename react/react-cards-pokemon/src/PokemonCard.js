@@ -1,6 +1,6 @@
 import React from "react";
 import "./PokemonCard.css";
-import useFlipCard from "./hooks"
+import { useFlipCard } from "./hooks"
 
 /* Renders a single pokemon card. */
 function PokemonCard({ front, back, name, stats }) {
